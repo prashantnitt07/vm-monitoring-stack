@@ -34,7 +34,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/vm-monitoring-stack
+            
+            rm -rf ~/vm-monitoring-stack
+            git clone https://github.com/prashantnitt07/vm-monitoring-stack.git ~/vm-monitoring-stack
+            cd ~/vm-monitoring-stack/deploy
+            docker-compose down || true
+            docker-compose up -d
             git pull origin main
             docker-compose down
             docker-compose pull
