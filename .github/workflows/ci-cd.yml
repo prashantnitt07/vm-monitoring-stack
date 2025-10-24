@@ -34,7 +34,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/monitoring-stack
+            cd ~/vm-monitoring-stack
             git pull origin main
             docker-compose down
             docker-compose pull
