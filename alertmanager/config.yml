@@ -10,9 +10,9 @@ route:
 receivers:
   - name: 'email-alert'
     email_configs:
-      - to: 'your_email@example.com'
-        from: 'alert@example.com'
+      - to: 'prashantsingh15749@gmail.com'
+        from: 'prashantce0685@gmail.com'
         smarthost: 'smtp.gmail.com:587'
-        auth_username: 'alert@example.com'
-        auth_identity: 'alert@example.com'
-        auth_password: 'your_email_app_password'
+        auth_username: 'prashantce0685@gmail.com'
+        auth_identity: 'prashantce0685@gmail.com'
+        auth_password: 'yawdktmpuzeaezxh'
