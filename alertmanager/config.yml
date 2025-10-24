@@ -1,0 +1,18 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'email-alert'
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 3h
+
+receivers:
+  - name: 'email-alert'
+    email_configs:
+      - to: 'your_email@example.com'
+        from: 'alert@example.com'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: 'alert@example.com'
+        auth_identity: 'alert@example.com'
+        auth_password: 'your_email_app_password'
