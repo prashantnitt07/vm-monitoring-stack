@@ -5,13 +5,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-
-
   deploy:
-
     runs-on: ubuntu-latest
 
-     
     steps:
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v1.2.1
@@ -19,16 +15,13 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          
           script: |
             set -e
-
             echo "🚀 Starting deployment on EC2..."
 
-            # Clone repository if missing
             if [ ! -d "/home/ubuntu/vm-monitoring-stack/.git" ]; then
               echo "Repository not found. Cloning fresh..."
-              git clone https://github.com/<your-username>/vm-monitoring-stack.git /home/ubuntu/vm-monitoring-stack
+              git clone https://github.com/PrashantSinghGit/vm-monitoring-stack.git /home/ubuntu/vm-monitoring-stack
             fi
 
             cd /home/ubuntu/vm-monitoring-stack
@@ -41,8 +34,6 @@ jobs:
               echo "❌ docker-compose.yml not found in $(pwd)"
               exit 1
             fi
-
-            
 
             echo "🐳 Pulling latest Docker image..."
             docker-compose pull
