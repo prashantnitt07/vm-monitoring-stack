@@ -4,7 +4,7 @@ groups:
 
   rules:
 
-    - alert: HostOutOfMemory
+    - alert: HostOutOfMemoryyy
       expr: '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < .10)'
       for: 2m
       labels:
