@@ -28,11 +28,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-     SMTP_FROM: ${{ secrets.SMTP_FROM }}
-     SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
-     SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-     ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO}}
+
      
     steps:
       - name: SSH into EC2 and Deploy
@@ -41,7 +37,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: SMTP_FROM,SMTP_USERNAME,SMTP_PASSWORD,ALERT_EMAIL_TO
+          
           script: |
             set -e
 
@@ -64,14 +60,7 @@ jobs:
               exit 1
             fi
 
-            echo "🧩 Writing environment file..."
-            cat > .env <<EOF
-            SMTP_FROM=${SMTP_FROM}
-            SMTP_USERNAME=${SMTP_USERNAME}
-            SMTP_PASSWORD=${SMTP_PASSWORD}
-            ALERT_EMAIL_TO=${ALERT_EMAIL_TO}
             
-            EOF
 
             echo "🐳 Pulling latest Docker image..."
             docker-compose pull
