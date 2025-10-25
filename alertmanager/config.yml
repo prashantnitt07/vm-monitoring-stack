@@ -4,7 +4,7 @@ global:
   smtp_from: 'prashantsingh15749@gmail.com'
   smtp_auth_username: 'prashantsingh15749@gmail.com'
   smtp_auth_identity: 'prashantsingh15749@gmail.com'
-  smtp_auth_password: 'yawdktmpuzeaezxh'
+  smtp_auth_password: 'yawdk'
 
 route:
   group_by: ['alertname', 'cluster', 'job', 'env']
