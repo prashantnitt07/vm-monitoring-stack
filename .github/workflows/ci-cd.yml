@@ -21,7 +21,7 @@ jobs:
 
             if [ ! -d "/home/ubuntu/vm-monitoring-stack/.git" ]; then
               echo "Repository not found. Cloning fresh..."
-              git clone https://github.com/PrashantSinghGit/vm-monitoring-stack.git /home/ubuntu/vm-monitoring-stack
+              git clone https://github.com/Prashantnitt07/vm-monitoring-stack.git /home/ubuntu/vm-monitoring-stack
             fi
 
             cd /home/ubuntu/vm-monitoring-stack
