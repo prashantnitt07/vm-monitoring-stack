@@ -1,10 +1,10 @@
 global:
   # The smarthost and SMTP sender used for mail notifications.
   smtp_smarthost: 'smtp.gmail.com:587'
-  smtp_from: 'prashantsingh15749@gmail.com'
-  smtp_auth_username: 'prashantsingh15749@gmail.com'
-  smtp_auth_identity: 'prashantsingh15749@gmail.com'
-  smtp_auth_password: 'yawdktmpuzeaezxh'
+  smtp_from: '${SMTP_FROM}'
+  smtp_auth_username: '${SMTP_USERNAME}'
+  smtp_auth_identity: '${SMTP_USERNAME}'
+  smtp_auth_password: '${SMTP_PASSWORD}'
 
 route:
   group_by: ['alertname', 'cluster', 'job', 'env']
@@ -17,14 +17,20 @@ route:
     - match:
         severity: warning
       receiver: admin
+    - match:
+        severity: critical
+      receiver:  lead
 
 receivers:
 - name: admin
   email_configs:
-  - to: 'prashantsingh15749@gmail.com'
+  - to: '${ALERT_EMAIL_TO}'
+- name: lead
+  email_configs:
+  - to: '${ALERT_EMAIL_TO}'
 
 
 - name: ops
   email_configs:
-  - to: 'prashantnitt07@gmail.com'
+  - to: '${ALERT_EMAIL_TO}'
 
