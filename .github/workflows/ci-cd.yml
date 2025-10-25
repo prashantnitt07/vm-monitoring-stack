@@ -18,10 +18,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/prometheus-stack:latest .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/prometheus-stack:latest .
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/prometheus-stack:latest
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/prometheus-stack:latest
 
   deploy:
     needs: build
@@ -33,11 +35,13 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: SMTP_FROM,SMTP_USERNAME,SMTP_PASSWORD,ALERT_EMAIL_TO
           script: |
-            
             set -e
 
-            # If folder does not exist, clone it
+            echo "🚀 Starting deployment on EC2..."
+
+            # Clone repository if missing
             if [ ! -d "/home/ubuntu/vm-monitoring-stack/.git" ]; then
               echo "Repository not found. Cloning fresh..."
               git clone https://github.com/<your-username>/vm-monitoring-stack.git /home/ubuntu/vm-monitoring-stack
@@ -45,16 +49,31 @@ jobs:
 
             cd /home/ubuntu/vm-monitoring-stack
 
-            # Pull latest changes
+            echo "📥 Pulling latest changes..."
             git pull origin main
 
-            # Check docker-compose file exists
+            echo "📦 Checking for docker-compose file..."
             if [ ! -f "docker-compose.yml" ]; then
-              echo "docker-compose.yml not found in $(pwd)"
+              echo "❌ docker-compose.yml not found in $(pwd)"
               exit 1
             fi
 
-            # Run docker compose
-            docker-compose down
+            echo "🧩 Writing environment file..."
+            cat > .env <<EOF
+            SMTP_FROM=${SMTP_FROM}
+            SMTP_USERNAME=${SMTP_USERNAME}
+            SMTP_PASSWORD=${SMTP_PASSWORD}
+            ALERT_EMAIL_TO=${ALERT_EMAIL_TO}
+            
+            EOF
+
+            echo "🐳 Pulling latest Docker image..."
             docker-compose pull
+
+            echo "🛑 Stopping old containers..."
+            docker-compose down
+
+            echo "🚀 Starting new stack..."
             docker-compose up -d
+
+            echo "✅ Deployment complete!"
