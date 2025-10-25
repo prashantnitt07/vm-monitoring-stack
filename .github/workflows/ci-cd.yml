@@ -28,6 +28,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+     SMTP_FROM: ${{ secrets.SMTP_FROM }}
+     SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+     SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+     ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO}}
+     
     steps:
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v1.2.1
